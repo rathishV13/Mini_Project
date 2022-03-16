@@ -21,6 +21,6 @@ app.use("/api/auth", authRoute)
 app.use("/api/users", userRoute)
 
 app.listen(process.env.PORT || 5000, ()=>{
-    console.log("Server is Running")
+    console.log("Server is Running Port Number: "+process.env.PORT)
 }) 
 
