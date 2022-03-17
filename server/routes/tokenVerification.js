@@ -28,8 +28,19 @@ const verifyAuthorizeToken = (req, res, next) => {
     })
 }
 
+const verifyAdminToken = (req, res, next) => {
+    verifyToken(req, res, () => {
+        if (req.user.isAdmin) {
+            next()
+        }else{
+            res.status(403).json("No Access")
+        }
+    })
+}
+
 
 module.exports = {
     verifyToken,
-    verifyAuthorizeToken
+    verifyAuthorizeToken,
+    verifyAdminToken
 }
