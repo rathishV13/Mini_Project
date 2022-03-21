@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "test": "export NODE_ENV=test && jest --forceExit --runInBand --testTimeout=10000"
   },
   "keywords": [],
   "author": "",
@@ -16,5 +17,16 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.6",
     "nodemon": "^2.0.15"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1",
+    "mongodb-memory-server": "^8.4.1",
+    "supertest": "^6.2.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

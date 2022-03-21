@@ -10,13 +10,6 @@ const orderRoute = require("./routes/order")
 
 dotenv.config()
 
-mongoose.connect(
-    process.env.MONGO_DB_URL
-).then(()=>
-    console.log("DB Connected!")
-).catch((err)=>{
-    console.log(err)
-})
 
 app.use(express.json())
 
@@ -26,7 +19,31 @@ app.use("/api/products", productRoute)
 app.use("/api/cart", cartRoute)
 app.use("/api/orders", orderRoute)
 
-app.listen(process.env.PORT || 5000, ()=>{
-    console.log("Server is Running Port Number: "+process.env.PORT)
-}) 
+if(process.env.NODE_ENV !== "test"){
+
+    mongoose.connect(
+        process.env.MONGO_DB_URL
+    ).then(()=>
+        console.log("DB Connected!")
+    ).catch((err)=>{
+        console.log(err)
+    })
+
+    app.listen(process.env.PORT || 5000, ()=>{
+        console.log("Server is Running Port Number: "+process.env.PORT)
+    })
+
+}else if (process.env.NODE_ENV === "test"){
+
+    mongoose.connect(
+        process.env.MONGO_DB_URL_TEST
+    ).then(()=>
+        console.log("TEST DB Connected!")
+    ).catch((err)=>{
+        console.log(err)
+    })
+    
+    module.exports = app.listen(3000);
+}
+
 
