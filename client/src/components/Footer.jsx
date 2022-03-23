@@ -106,13 +106,13 @@ const Footer = () => {
             <Title>LINKS</Title>
             <List>
                 <ListItem>Home</ListItem>
-                <ListItem>Cart</ListItem>
+                <ListItem>Meat</ListItem>
                 <ListItem>WishList</ListItem>
                 <ListItem>Grocery</ListItem>
-                <ListItem>Meat</ListItem>
+                <ListItem>Cart</ListItem>
                 <ListItem>Dairy</ListItem>
-                <ListItem>Seafood</ListItem>
                 <ListItem>Terms</ListItem>
+                <ListItem>Seafood</ListItem>
             </List>
         </Center>
         <Right>
