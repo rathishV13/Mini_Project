@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState,useEffect } from 'react'
 import styled from 'styled-components'
 import {Search, ShoppingCartOutlined} from '@material-ui/icons'
-import img from '../Logo.png'
+import axios from 'axios'
 import { Badge } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
     height: 60px;
@@ -21,6 +23,10 @@ const Left = styled.div`
     align-items: center;
 `
 
+const SearchContainer = styled.div` 
+
+`
+
 const SearchBar = styled.div`
     border: 0.5px solid #2187c4;
     display: flex;
@@ -29,8 +35,13 @@ const SearchBar = styled.div`
     padding: 5px;
 `
 
+const DataResult = styled.div` 
+
+`
+
 const Input = styled.input`
     border:none;
+    outline: none;
 `
 
 const Center = styled.div`
@@ -56,25 +67,61 @@ const Menu = styled.div`
     color: #2187c4;
 `
 
+const SearchItem = ({placeholder}) => {
+
+    const [searchItems, setSearchItems] = useState("")
+    const [items, setItems] = useState([])
+
+    useEffect(() => {
+        const getProducts = async () => {
+            try {
+                const res = await axios.get("http://localhost:5000/api/products")
+                setItems(res.data)
+            } catch (error) {
+      
+            }
+          }
+    
+        getProducts()
+    }, [])
+    
+    console.log(items);
+
+  return (
+    <SearchContainer>
+        <SearchBar>
+            <Input placeholder={placeholder}/>
+            <Search style={{fill: "#2187c4"}}/>
+        </SearchBar>
+    </SearchContainer>
+  )
+}
+
 const Navbar = () => {
+
+    const quantity = useSelector(state=>state.cart.quantity)
+
   return (
     <Container>
         <Wrapper>
            <Left>
-               <SearchBar>
-                    <Input/>
-                    <Search style={{fill: "#2187c4"}}/>
-               </SearchBar>
+               <SearchItem placeholder={"Enter Product "}/>
            </Left>
-           <Center><Logo>Sysco</Logo></Center>
+           <Center>
+               <Link to={"/"} style={{ textDecoration: 'none' }}>
+                <Logo>Sysco</Logo>
+               </Link>
+            </Center>
            <Right>
                <Menu>REGISTER</Menu>
                <Menu>SIGN IN</Menu>
-               <Menu>
-               <Badge badgeContent={4} color="primary">
-                    <ShoppingCartOutlined/>
-                </Badge>
-               </Menu>
+               <Link to={"/cart"}>
+                <Menu>
+                <Badge badgeContent={quantity} color="primary">
+                        <ShoppingCartOutlined/>
+                    </Badge>
+                </Menu>
+               </Link>
            </Right>
         </Wrapper>
     </Container>

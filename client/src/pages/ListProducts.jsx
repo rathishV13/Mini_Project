@@ -3,12 +3,19 @@ import Announcement from "../components/Announcement"
 import Navbar from "../components/Navbar"
 import Items from "../components/Items"
 import Footer from "../components/Footer"
+import { useLocation } from "react-router-dom"
+import { useState } from "react"
 
 const Container = styled.div` 
  
 `
 
-const Title = styled.h1` 
+const Title = styled.h1`
+  font-weight: 300;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
   margin: 20px;
 `
 
@@ -46,37 +53,46 @@ const Option = styled.option`
 `
 
 const ListProducts = () => {
+
+  const location = useLocation()
+  const cat = location.pathname.split("/")[2]
+  const [filters, setFilters] = useState({})
+  const [sort, setSort] = useState("newest")
+
+  const handleFilters = (e) => {
+    const value = e.target.value
+
+    setFilters({
+      ...filters,
+      [e.target.name]: value
+    })
+  }
+
   return (
     <Container>
         <Navbar/>
         <Announcement/>
-        <Title>ALL PRODUCTS</Title>
+        <Title>{cat}</Title>
         <FilterBar>
           <Filter>
             <TextFilter>Filter Products:</TextFilter>
-            <Selection>
-              <Option disabled selected>CATEGORY</Option>  
-              <Option>Grocery</Option>
-              <Option>Meat</Option>
-              <Option>Dairy</Option>
-              <Option>Seafood</Option>
-            </Selection>
-            <Selection>
-              <Option disabled selected>FOOD TYPE</Option>  
+            <Selection name="foodType" onChange={handleFilters}>
+              <Option selected disabled>FOOD TYPE</Option>  
               <Option>Dry</Option>
               <Option>Processed</Option>
               <Option>Raw</Option>
+              <Option>Vegan</Option>
             </Selection>    
           </Filter>
           <Filter><TextFilter>Sort Products:</TextFilter>
-          <Selection>
-              <Option selected>Newest</Option>  
-              <Option>Price (Highest)</Option>
-              <Option>Price (Lowest)</Option>
+          <Selection onChange={e=>setSort(e.target.value)}>
+              <Option value="newest">Newest</Option>  
+              <Option value="desc">Price (Highest)</Option>
+              <Option value="asc">Price (Lowest)</Option>
             </Selection>  
           </Filter>
         </FilterBar>
-        <Items/>
+        <Items cat={cat} filters={filters} sort={sort}/>
         <Footer/>
     </Container>
   )

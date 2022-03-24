@@ -1,4 +1,5 @@
 import { Add, Remove } from "@material-ui/icons"
+import { useSelector } from "react-redux"
 import styled from "styled-components"
 import Announcement from "../components/Announcement"
 import Footer from "../components/Footer"
@@ -150,6 +151,7 @@ const Button = styled.button`
 `
 
 const Cart = () => {
+    const cart = useSelector(state=>state.cart)
   return (
     <Container>
         <Navbar/>
@@ -166,47 +168,34 @@ const Cart = () => {
             </Top>
             <Bottom>
                 <Information>
-                    <Product>
-                        <ProductInfo>
-                            <Image src="https://srnnaturalproducts.com/wp-content/uploads/2020/08/White-Rice-Bag.png"/>
-                            <ItemInfo>
-                                <ItemName><b>Product: </b>WHITE RICE BAG 5 KG</ItemName>
-                                <ItemId><b>ID: </b>8983727392</ItemId>
-                            </ItemInfo>
-                        </ProductInfo>
-                        <PriceInfo>
-                            <ItemQuantityContainer>
-                                <Add/>
-                                <ItemAmount>2</ItemAmount>
-                                <Remove/>
-                            </ItemQuantityContainer>
-                            <ItemPrice>$ 5.99</ItemPrice>
-                        </PriceInfo>
-                    </Product>
+                    { cart.products.map(product=>(
+                        <Product>
+                            <ProductInfo>
+                                <Image src={product.img}/>
+                                <ItemInfo>
+                                    <ItemName><b>Product: </b>{product.title}</ItemName>
+                                    <ItemId><b>ID: </b>{product._id}</ItemId>
+                                </ItemInfo>
+                            </ProductInfo>
+                            <PriceInfo>
+                                <ItemQuantityContainer>
+                                    <Add/>
+                                    <ItemAmount>{product.quantity}</ItemAmount>
+                                    <Remove/>
+                                </ItemQuantityContainer>
+                                <ItemPrice>$ {product.price * product.quantity}</ItemPrice>
+                            </PriceInfo>
+                        </Product>
+                        
+                        ))
+                    }
                     <Hr/>
-                    <Product>
-                        <ProductInfo>
-                            <Image src="https://www.bigbasket.com/media/uploads/p/xxl/225755_8-heritage-curd-premium.jpg"/>
-                            <ItemInfo>
-                                <ItemName><b>Product: </b>CURD CUP</ItemName>
-                                <ItemId><b>ID: </b>8983721392</ItemId>
-                            </ItemInfo>
-                        </ProductInfo>
-                        <PriceInfo>
-                            <ItemQuantityContainer>
-                                <Add/>
-                                <ItemAmount>3</ItemAmount>
-                                <Remove/>
-                            </ItemQuantityContainer>
-                            <ItemPrice>$ 3.99</ItemPrice>
-                        </PriceInfo>
-                    </Product>
                 </Information>
                 <Summary>
                     <SummaryTitle>ORDER SUMMARY</SummaryTitle>
                     <SummaryItem>
                         <SummaryItemText>Subtotal</SummaryItemText>
-                        <SummaryItemPrice>$ 9.98</SummaryItemPrice>
+                        <SummaryItemPrice>$ {cart.total.toFixed(2)}</SummaryItemPrice>
                     </SummaryItem>
                     <SummaryItem>
                         <SummaryItemText>Estimated Shippingl</SummaryItemText>
@@ -218,7 +207,7 @@ const Cart = () => {
                     </SummaryItem>
                     <SummaryItem type="total">
                         <SummaryItemText>Total</SummaryItemText>
-                        <SummaryItemPrice>$ 9.98</SummaryItemPrice>
+                        <SummaryItemPrice>$ {cart.total.toFixed(2)}</SummaryItemPrice>
                     </SummaryItem>
                     <Button>
                         CHECKOUT NOW

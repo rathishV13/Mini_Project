@@ -34,21 +34,25 @@ export const categories = [
         id: 1,
         img: "https://images.pexels.com/photos/6152382/pexels-photo-6152382.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         title: "GROCERY",
+        cat: "Grocery",
     },
     {
         id: 2,
         img: "https://images.pexels.com/photos/821365/pexels-photo-821365.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
         title: "DAIRY",
+        cat: "Dairy",
     },
     {
         id: 3,
         img: "https://images.pexels.com/photos/1927383/pexels-photo-1927383.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
         title: "MEAT",
+        cat: "Meat",
     },
     {
         id: 4,
         img: "https://images.pexels.com/photos/2871757/pexels-photo-2871757.jpeg?auto=compress&cs=tinysrgb&w=1600",
         title: "SEAFOOD",
+        cat: "Seafood",
     },
 ]
 
