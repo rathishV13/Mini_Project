@@ -1,4 +1,7 @@
+import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
+import { login } from "../redux /apiCalls"
 
 const Container = styled.div` 
   width: 100vw;
@@ -43,6 +46,14 @@ const Button = styled.button`
     &:hover {
         background-color: #56b146;
     }
+    &:disabled {
+        color: aqua;
+        cursor: none;
+    }
+`
+const Error = styled.span` 
+    color: red;
+    font-size: 10px;
 `
 
 const Link = styled.a` 
@@ -53,6 +64,18 @@ const Link = styled.a`
 `
 
 const Login = () => {
+
+    const [username,setUsername] =useState("")
+    const [password,setPassword] =useState("")
+
+    const dispatch = useDispatch();
+    const {isFetching,error} = useSelector((state) => state.user)
+
+    const handleLogin = (e) => {
+        e.preventDefault()
+        login(dispatch,{username,password})
+    }
+
   return (
     <Container>
         <Wrapper>
@@ -60,11 +83,12 @@ const Login = () => {
                 SIGN IN
             </Title>
             <Form>
-                <Input placeholder="Username"/>
-                <Input placeholder="Password"/>
-                <Button>
+                <Input placeholder="Username" onChange={(e) => setUsername(e.target.value)}/>
+                <Input placeholder="Password" type="password" onChange={(e) => setPassword(e.target.value)}/>
+                <Button onClick={handleLogin} disabled={isFetching}>
                     LOGIN
                 </Button>
+                {error && <Error>Invalid Credentials</Error>}
                 <Link>FORGOT PASSWORD?</Link>
                 <Link>REGISTER</Link>
             </Form>
