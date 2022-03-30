@@ -2,13 +2,16 @@ version: '3.8'
 
 services:
   client:
-    image: client
+    image: mini_project/client_frontend
+    build: client
     stdin_open: true
     ports:
       - "3000:3000"
-  
+    depends_on:
+      - server
   server:
-    image: server
+    image: mini_project/server_backend
+    build: server
     ports:
       - "5000:5000"
     
